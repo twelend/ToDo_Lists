@@ -57,11 +57,11 @@ const Burger: React.FC<BurgerProps> = ({ toggleDark, isDark, setListType, listTy
                     }
                 </button>
                 <button onClick={() => setListType('completed')} title='Выполненные задачи' className='flex items-center gap-2'>
-                    <FileClock size={20} className={`${listType === 'completed' ? "text-blue " : "text-text"} transition-transform duration-300 hover:translate-x-1`} />
+                    <FileCheck2 size={20} className={`${listType === 'completed' ? "text-blue " : "text-text"} transition-transform duration-300 hover:translate-x-1`} />
                     {isShowList && <span className="text-text">Выполненные</span>}
                 </button>
                 <button onClick={() => setListType('uncompleted')} title='Невыполненные задачи' className='flex items-center gap-2'>
-                    <FileCheck2 size={20} className={`${listType === 'uncompleted' ? "text-blue " : "text-text"} transition-transform duration-300 hover:translate-x-1`} />
+                    <FileClock size={20} className={`${listType === 'uncompleted' ? "text-blue " : "text-text"} transition-transform duration-300 hover:translate-x-1`} />
                     {isShowList && <span className="text-text">Невыполненные</span>}
                 </button>
 

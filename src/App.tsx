@@ -31,7 +31,7 @@ function App() {
 
   return (
     <main>
-      <Toaster />
+      <Toaster position="top-center" />
       <div className="relative min-h-screen py-3 px-5">
         <Burger setLists={setLists} setName={setName} toggleDark={toggleDark} isDark={isDark.toString()} setListType={setListType} listType={listType} name={name} />
         <List listType={listType} name={name} setLists={setLists} lists={lists} />
