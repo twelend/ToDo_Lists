@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --blue: #6C63FF;
+  --black: #252525;
+  --white: #F7F7F7;
+  --text: var(--black);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: white;
+  color: var(--black);
+  
+}
+
+body.dark {
+  background-color: var(--black);
+  color: var(--white);
+  --white: #272831;
+  --text: #F7F7F7;
+}
