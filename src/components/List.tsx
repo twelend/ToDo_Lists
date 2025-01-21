@@ -10,7 +10,7 @@ import { createList } from "../helpers/CreateList"
 interface ListProps {
     listType: string
     name?: string
-    setLists: any
+    setLists: React.Dispatch<React.SetStateAction<{ listId: string, name: string, tasks: Todo[] }[]>>
     lists: { listId: string, name: string, tasks: Todo[] }[]
 }
 
@@ -25,10 +25,6 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
             setSelectedList(lists[0]);
         }
     }, [lists, selectedList]);
-
-    useEffect(() => {
-        setSelectedList(lists[lists.length - 1]);
-    }, [localStorage.getItem('lists')]);
 
     // Добавление задач
     const addTodo = (e: React.FormEvent) => {
@@ -121,7 +117,7 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
             {
                 lists.length < 1 ? (
                     <div className="flex flex-col items-center justify-center text-text text-center">
-                        <form className="space-y-4" action="" onSubmit={() => createList({ name: listName, onCreate: handleCreateList })}>
+                        <form role="form" className="space-y-4" action="" onSubmit={() => createList({ name: listName, onCreate: handleCreateList })}>
                             <h2>У вас пока нет списков</h2>
                             <h4>Создать список:</h4>
                             <Input newTodo={listName} setNewTodo={setListName} />
@@ -138,8 +134,8 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
                                     <div className="absolute top-20 sm:top-12 left-0 w-full bg-white rounded-lg rounded-t-none shadow-lg z-10 border-[1px] border-t-0 border-text">
                                         <ul className="text-text">
                                             {
-                                                lists.map((list: any) => (
-                                                    <li key={list.listId} onClick={() => { setOpenSelect(false); setSelectedList(list)}} className="p-2 hover:text-blue cursor-pointer">{list.name} <X className="float-right" onClick={() => deleteList(list.listId)} /></li>
+                                                lists.map((list: { listId: string, name: string, tasks: Todo[] }) => (
+                                                    <li key={list.listId} onClick={() => { setOpenSelect(false); setSelectedList(list)}} className="p-2 hover:text-blue cursor-pointer">{list.name} <X className="float-right" data-testid="x-icon" onClick={() => deleteList(list.listId)} /></li>
                                                 ))
                                             }
                                         </ul>
@@ -147,7 +143,7 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
                                 )
                             }
                         </div>
-                        <form onSubmit={addTodo} className="mb-4">
+                        <form role="form" onSubmit={addTodo} className="mb-4">
                             <Input newTodo={newTodo} setNewTodo={setNewTodo} />
                         </form>
                         <ul>
@@ -155,7 +151,7 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
                                 filteredTodos?.length === 0 ? (
                                     <p className="text-center text-text">Задачи отсутствуют</p>
                                 ) :
-                                    filteredTodos.map((todo: any) => (
+                                    filteredTodos.map((todo: Todo) => (
                                         <Item key={todo.id} {...todo} changeTodo={changeTodo} onToggle={toggleTodo} onDelete={deleteTodo} />
                                     ))}
                         </ul>

@@ -16,7 +16,7 @@ export const Item: React.FC<ItemProps> = ({ id, text, completed, changeTodo, onT
                     className={`w-6 h-6 mr-4 rounded-full border-2 flex items-center justify-center transition-colors duration-300 ${completed ? "bg-blue border-blue" : "border-gray-300"
                         }`}
                 >
-                    {completed && <Check size={16} className="text-white" />}
+                    {completed && <Check size={16} className="text-white" data-testid="check-icon" />}
                 </button>
                 {
                     isEditing ? (
@@ -32,19 +32,19 @@ export const Item: React.FC<ItemProps> = ({ id, text, completed, changeTodo, onT
                         <button onClick={() => {
                             setIsEditing(false); changeTodo(id, newText)
                         }}>
-                            <Check size={20} />
+                            <Check size={20} data-testid="save-icon" />
                         </button>
                         <button onClick={() => setIsEditing(false)}>
-                            <X size={20} />
+                            <X size={20} data-testid="cancel-icon" />
                         </button>
                     </>
                 ) : (
                     <>
                         <button onClick={() => setIsEditing(true)} className="text-blue-500 hover:text-blue-700 transition-colors duration-300 mr-4" disabled={isEditing}>
-                            <Pen size={20} />
+                            <Pen size={20} data-testid="edit-icon" />
                         </button>
                         <button onClick={() => onDelete(id)} className="text-red-500 hover:text-red-700 transition-colors duration-300">
-                            <Trash2 size={20} />
+                            <Trash2 size={20} data-testid="trash-icon" />
                         </button>
                     </>
                 )}
@@ -52,4 +52,3 @@ export const Item: React.FC<ItemProps> = ({ id, text, completed, changeTodo, onT
         </li>
     )
 }
-
