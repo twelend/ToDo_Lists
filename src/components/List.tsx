@@ -1,6 +1,5 @@
 import type React from "react"
 import { useEffect, useState } from "react"
-import { useLS } from "../hooks/useLS"
 import { Item } from "./Item"
 import { Todo } from "../types/todo.types"
 import { Input } from "../ui/Input"
@@ -14,6 +13,7 @@ interface ListProps {
     setLists: any
     lists: { listId: string, name: string, tasks: Todo[] }[]
 }
+
 
 export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
     const [newTodo, setNewTodo] = useState("")
@@ -103,12 +103,10 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
     }, [selectedList, listType]);
 
     const [listName, setListName] = useState("");
-    const handleCreateList = (e: React.FormEvent) => {
-        e.preventDefault();
-        createList({ name: listName })
-        setLists([...lists, { listId: Date.now().toString(), name: listName, tasks: [] }]);
-        setListName('');
-    }
+    const handleCreateList = (newList: { listId: string, name: string, tasks: Todo[] }) => {
+        setLists((prevLists: { listId: string, name: string, tasks: Todo[] }[]) => [...prevLists, newList]);
+        setSelectedList(newList);
+    };
 
     const deleteList = (listId: string) => {
         const updatedLists = lists.filter(list => list.listId !== listId);
@@ -123,7 +121,7 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
             {
                 lists.length < 1 ? (
                     <div className="flex flex-col items-center justify-center text-text text-center">
-                        <form className="space-y-4" action="" onSubmit={(e) => handleCreateList(e)}>
+                        <form className="space-y-4" action="" onSubmit={() => createList({ name: listName, onCreate: handleCreateList })}>
                             <h2>У вас пока нет списков</h2>
                             <h4>Создать список:</h4>
                             <Input newTodo={listName} setNewTodo={setListName} />
@@ -137,7 +135,7 @@ export const List: React.FC<ListProps> = ({ listType, setLists, lists }) => {
                             <button onClick={() => setOpenSelect(!openSelect)} className="text-text text-xl flex items-end">Выбрать список {!openSelect ? <ChevronDown /> : <ChevronUp />}</button>
                             {
                                 openSelect && (
-                                    <div className="absolute top-20 left-0 w-full bg-white rounded-lg rounded-t-none shadow-lg z-10 border-[1px] border-t-0 border-text">
+                                    <div className="absolute top-20 sm:top-12 left-0 w-full bg-white rounded-lg rounded-t-none shadow-lg z-10 border-[1px] border-t-0 border-text">
                                         <ul className="text-text">
                                             {
                                                 lists.map((list: any) => (

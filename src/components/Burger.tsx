@@ -2,6 +2,9 @@ import { FileCheck2, FileClock, Files, LogIn, Moon, PlusCircle, Sun, X } from 'l
 import React, { useEffect } from 'react'
 import { BurgerProps } from '../types/layout.types'
 import { createList } from '../helpers/CreateList'
+import { Todo } from '../types/todo.types'
+
+
 
 const Burger: React.FC<BurgerProps> = ({ toggleDark, isDark, setListType, listType, setName, name, setLists }) => {
     const [isShow, setIsShow] = React.useState<boolean>(false)
@@ -23,10 +26,8 @@ const Burger: React.FC<BurgerProps> = ({ toggleDark, isDark, setListType, listTy
         }
     }, [isShow]);
 
-    const handleCreateList = (e: React.FormEvent) => {
-        e.preventDefault();
-        createList({ name });
-        setLists(prevLists => [...prevLists, { listId: Date.now().toString(), name, tasks: [] }]);
+    const handleCreateList = (newList: { listId: string, name: string, tasks: Todo[] }) => {
+        setLists((prevLists: { listId: string, name: string, tasks: Todo[] }[]) => [...prevLists, newList]);
         setIsShow(false);
         setOpenCreateModal(false);
         setName('');
@@ -72,7 +73,7 @@ const Burger: React.FC<BurgerProps> = ({ toggleDark, isDark, setListType, listTy
                 </button>
                 {openCreateModal &&
                     <div className="absolute -top-14 sm:-top-12 right-2 sm:left-0 w-200px sm:w-full h-full flex items-center justify-center">
-                        <form onSubmit={(e) => handleCreateList(e)}>
+                        <form onSubmit={() => createList({ name, onCreate: handleCreateList })}>
                             <input type="text" className="w-full p-2 border border-blue rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="ToDo 1" onChange={(e) => setName(e.target.value)} />
                         </form>
                     </div>
